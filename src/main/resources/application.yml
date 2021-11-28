@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/beverages-partners
+    username: zezinho
+    password: any-strong-secured-password
+
+  jpa:
+    
