@@ -1,24 +1,25 @@
 package io.juliodias.ze.controller
 
 import io.juliodias.ze.model.PartnerSkeleton
-import org.apache.logging.log4j.LogManager
+import io.juliodias.ze.service.PartnerService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 
 @RestController
 @RequestMapping("partners")
-class PartnerController {
+class PartnerController(val partnerService: PartnerService) {
 
     @PostMapping
-    fun create(@RequestBody partnerSkeleton: PartnerSkeleton): ResponseEntity<String> {
-        logger.info("Request to create partner: $partnerSkeleton")
-        return ResponseEntity.ok("Hello world!")
+    fun create(@RequestBody partnerSkeleton: PartnerSkeleton): ResponseEntity<PartnerSkeleton> {
+        val partner = partnerService.createPartner(partnerSkeleton)
+        val location = ServletUriComponentsBuilder.fromCurrentRequestUri()
+            .buildAndExpand("{externalId}", partner.externalId)
+            .toUri()
+        return ResponseEntity.created(location).body(partner.toSkeleton())
     }
 
-    companion object {
-        private val logger = LogManager.getLogger()
-    }
 }

@@ -14,7 +14,10 @@ data class Partner(
     @Column val ownerName: String,
     @Column val tradingName: String,
     @Column val coverageArea: Geometry
-): BaseEntity()
+) : BaseEntity() {
+
+    fun toSkeleton(): PartnerSkeleton = PartnerSkeleton(address, document, ownerName, tradingName, coverageArea)
+}
 
 data class PartnerSkeleton(
     val address: Point,
@@ -22,4 +25,7 @@ data class PartnerSkeleton(
     val ownerName: String,
     val tradingName: String,
     val coverageArea: Geometry
-)
+) {
+
+    fun toPartner(): Partner = Partner(address, document, ownerName, tradingName, coverageArea)
+}
