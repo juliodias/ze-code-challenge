@@ -19,7 +19,7 @@ data class Partner(
     fun toSkeleton(): PartnerSkeleton = PartnerSkeleton(address, document, ownerName, tradingName, coverageArea)
 }
 
-data class PartnerSkeleton(
+data class PartnerSkeleton (
     val address: Point,
     val document: String,
     val ownerName: String,
