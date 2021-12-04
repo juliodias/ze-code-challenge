@@ -19,7 +19,7 @@ abstract class BaseEntity : Serializable {
     var id: Long = 0
 
     @Column(nullable = false)
-    var externalId: UUID = UUID.randomUUID()
+    val externalId = UUID.randomUUID()
 
     @Column(nullable = false)
     var createdAt: ZonedDateTime = ZonedDateTime.now()
@@ -32,7 +32,6 @@ abstract class BaseEntity : Serializable {
         val now = ZonedDateTime.now()
         this.createdAt = now
         this.updatedAt = now
-        this.externalId = UUID.randomUUID()
     }
 
     @PreUpdate

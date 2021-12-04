@@ -4,6 +4,7 @@ import io.juliodias.ze.exception.PartnerAlreadyExistsException
 import io.juliodias.ze.model.Partner
 import io.juliodias.ze.model.PartnerSkeleton
 import io.juliodias.ze.repository.PartnerRepository
+import java.util.UUID
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import org.springframework.stereotype.Service
@@ -20,6 +21,12 @@ class PartnerService(val partnerRepository: PartnerRepository) {
         val newPartner = partnerRepository.save(partner)
         logger.info("New partner created with success: $newPartner")
         return newPartner
+    }
+
+    fun getPartner(externalId: String): Partner? {
+        val partner = partnerRepository.findByExternalId(UUID.fromString(externalId))
+        logger.info("Finding for partner with external id: $externalId")
+        return partner
     }
 
     companion object {

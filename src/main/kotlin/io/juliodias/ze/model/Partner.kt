@@ -1,5 +1,7 @@
 package io.juliodias.ze.model
 
+import com.bedatadriven.jackson.datatype.jts.serialization.GeometrySerializer
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.vividsolutions.jts.geom.Geometry
 import com.vividsolutions.jts.geom.Point
 import javax.persistence.Column
@@ -24,6 +26,7 @@ data class PartnerSkeleton (
     val document: String,
     val ownerName: String,
     val tradingName: String,
+    @JsonSerialize(using = GeometrySerializer::class)
     val coverageArea: Geometry
 ) {
 
