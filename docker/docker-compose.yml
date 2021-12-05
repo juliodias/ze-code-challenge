@@ -6,6 +6,6 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_DB: beverages-partners
+      POSTGRES_DB: beverages_partners
       POSTGRES_USER: zezinho
       POSTGRES_PASSWORD: any-strong-secured-password

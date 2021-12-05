@@ -1,10 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/beverages-partners
+    url: jdbc:postgresql://localhost:5432/beverages_partners
     username: zezinho
     password: any-strong-secured-password
 
   jpa:
-    hibernate:
-      ddl-auto: 'create-drop'
-#    database-platform: org.hibernate.spatial.dialect.postgis.PostgisDialect
+    database-platform: org.hibernate.spatial.dialect.postgis.PostgisDialect

@@ -22,8 +22,8 @@ abstract class AbstractControllerTest {
     protected fun doPostRequest(url: String, requestBody: String): MockHttpServletResponse {
         return mockMvc.post(url) {
             content = requestBody
-            accept = MediaType.APPLICATION_JSON_UTF8
-            contentType = MediaType.APPLICATION_JSON_UTF8
+            accept = MediaType.APPLICATION_JSON
+            contentType = MediaType.APPLICATION_JSON
         }.andExpect {
             status { isCreated() }
             content { contentType(MediaType.APPLICATION_JSON) }

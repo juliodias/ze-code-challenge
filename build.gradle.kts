@@ -24,6 +24,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.hibernate:hibernate-spatial:5.3.1.Final")
 	runtimeOnly("org.postgresql:postgresql")
+	implementation("org.flywaydb:flyway-core:8.2.0")
 
 	implementation("com.bedatadriven:jackson-datatype-jts:2.2")
 
@@ -32,6 +33,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("com.h2database:h2:2.0.202")
 }
 
 tasks.withType<KotlinCompile> {
@@ -43,4 +45,5 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+	systemProperty("spring.profiles.active", "test")
 }
