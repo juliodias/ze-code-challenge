@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import java.nio.charset.Charset
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.io.Resource
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.test.web.servlet.MockMvc
@@ -18,6 +19,12 @@ abstract class AbstractControllerTest {
 
     @Autowired
     lateinit var objectMapper: ObjectMapper
+
+    protected fun doGetRequest(url: String, expectedStatus: HttpStatus): MockHttpServletResponse {
+        return mockMvc.get(url)
+            .andExpect { status { expectedStatus } }
+            .andReturn().response
+    }
 
     protected fun doPostRequest(url: String, requestBody: String): MockHttpServletResponse {
         return mockMvc.post(url) {
