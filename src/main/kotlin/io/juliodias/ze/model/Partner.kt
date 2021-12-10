@@ -1,6 +1,8 @@
 package io.juliodias.ze.model
 
+import com.bedatadriven.jackson.datatype.jts.serialization.GeometryDeserializer
 import com.bedatadriven.jackson.datatype.jts.serialization.GeometrySerializer
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.vividsolutions.jts.geom.Geometry
 import com.vividsolutions.jts.geom.Point
@@ -27,6 +29,7 @@ data class PartnerSkeleton (
     val ownerName: String,
     val tradingName: String,
     @JsonSerialize(using = GeometrySerializer::class)
+    @JsonDeserialize(using = GeometryDeserializer::class)
     val coverageArea: Geometry
 ) {
 
