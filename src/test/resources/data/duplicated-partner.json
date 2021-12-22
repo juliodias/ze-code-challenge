@@ -1,0 +1,12 @@
+{
+  "tradingName": "Cervejaria Bem te vi",
+  "ownerName": "Caio Prado Jr.",
+  "document": "1432132123891/0001",
+  "address": {
+    "type":"Point",
+    "coordinates":[
+      -46.57421,
+      -21.785741
+    ]
+  }
+}

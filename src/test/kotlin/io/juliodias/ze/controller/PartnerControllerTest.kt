@@ -1,42 +1,56 @@
 package io.juliodias.ze.controller
 
+import io.juliodias.ze.exception.ErrorResponse
+import io.juliodias.ze.exception.PartnerErrorResponse
 import io.juliodias.ze.model.PartnerSkeleton
-import io.juliodias.ze.service.PartnerService
-import java.util.UUID
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.core.io.Resource
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
+import org.springframework.test.web.servlet.post
 
-@WebMvcTest
 class PartnerControllerTest : AbstractControllerTest() {
 
     @Value("classpath:data/new-partner.json")
     lateinit var newPartnerJson: Resource
 
-    @MockBean
-    lateinit var partnerService: PartnerService
+    @Value("classpath:data/duplicated-partner.json")
+    lateinit var duplicatedPartnerJson: Resource
 
     @Test
     fun `Endpoint should create new partner`() {
         val partnerRequest = jsonFromResource(newPartnerJson)
         val response = doPostRequest(PARTNER_ENDPOINT, partnerRequest)
 
-        val partnerSkeleton = objectMapper.convertValue(response.contentAsString, PartnerSkeleton::class.java)
-        Assertions.assertThat(partnerSkeleton.ownerName).isEqualTo("Zé da Silva")
-        Assertions.assertThat(partnerSkeleton.document).isEqualTo("1432132123891/0001")
+        val partnerSkeleton = objectMapper.readValue(response.contentAsString, PartnerSkeleton::class.java)
+        Assertions.assertThat(partnerSkeleton.ownerName).isEqualTo("Nelson Rodrigues")
+        Assertions.assertThat(partnerSkeleton.document).isEqualTo("36.096.143/0001-96")
         Assertions.assertThat(partnerSkeleton.tradingName).isEqualTo("Adega da Cerveja - Pinheiros")
     }
 
     @Test
+    fun `Duplicated partner should return bad request`() {
+        val partnerRequest = jsonFromResource(duplicatedPartnerJson)
+        val response = mockMvc.post(PARTNER_ENDPOINT) {
+            contentType = MediaType.APPLICATION_JSON
+            content = partnerRequest
+        }.andExpect {
+            status { isBadRequest() }
+        }.andReturn().response
+
+        val responseBody = response.contentAsString
+        val partnerErrorResponse = objectMapper.readValue(responseBody, PartnerErrorResponse::class.java)
+        Assertions.assertThat(partnerErrorResponse.error).isEqualTo(ErrorResponse.PARTNER_ALREADY_EXISTS)
+        Assertions.assertThat(partnerErrorResponse.description).isEqualTo("This partner already registed")
+    }
+
+    @Test
     fun `Endpoint should return No Content when partner doesn't exist`() {
-        val url = "$PARTNER_ENDPOINT/${UUID.randomUUID()}"
+        val url = "$PARTNER_ENDPOINT/76328bf9-47e3-454c-aa45-b93dc77004d0"
 
         val response = doGetRequest(url, HttpStatus.NO_CONTENT)
-
         Assertions.assertThat(response.contentAsString).isBlank
     }
 
@@ -45,8 +59,7 @@ class PartnerControllerTest : AbstractControllerTest() {
         val url = "$PARTNER_ENDPOINT/a0638bd7-cc97-4649-90e5-102ed1a727fb"
 
         val response = doGetRequest(url, HttpStatus.OK)
-
-        val partnerSkeleton = objectMapper.convertValue(response.contentAsString, PartnerSkeleton::class.java)
+        val partnerSkeleton = objectMapper.readValue(response.contentAsString, PartnerSkeleton::class.java)
         Assertions.assertThat(partnerSkeleton.ownerName).isEqualTo("Zezinho")
         Assertions.assertThat(partnerSkeleton.document).isEqualTo("1432132123891/0001")
         Assertions.assertThat(partnerSkeleton.tradingName).isEqualTo("Adeguinha do Zezinho")

@@ -26,14 +26,15 @@ dependencies {
 	runtimeOnly("org.postgresql:postgresql")
 	implementation("org.flywaydb:flyway-core:8.2.0")
 
-	implementation("com.bedatadriven:jackson-datatype-jts:2.2")
+	implementation("com.bedatadriven:jackson-datatype-jts:2.3")
 
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("com.h2database:h2:2.0.202")
+	testImplementation("com.h2database:h2:1.4.197")
+	testImplementation("org.orbisgis:h2gis:1.5.0")
 }
 
 tasks.withType<KotlinCompile> {

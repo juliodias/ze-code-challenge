@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.MappedSuperclass
-import javax.persistence.PrePersist
 import javax.persistence.PreUpdate
 
 @MappedSuperclass
@@ -22,17 +21,10 @@ abstract class BaseEntity : Serializable {
     val externalId = UUID.randomUUID()
 
     @Column(nullable = false)
-    var createdAt: ZonedDateTime = ZonedDateTime.now()
+    val createdAt: ZonedDateTime = ZonedDateTime.now()
 
     @Column(nullable = false, updatable = true)
     var updatedAt: ZonedDateTime = ZonedDateTime.now()
-
-    @PrePersist
-    private fun onCreate() {
-        val now = ZonedDateTime.now()
-        this.createdAt = now
-        this.updatedAt = now
-    }
 
     @PreUpdate
     private fun onUpdate() {

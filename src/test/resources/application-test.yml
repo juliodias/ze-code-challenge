@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:beverages_partners;DATABASE_TO_UPPER=false
+    url: jdbc:h2:mem:beverages_partners
     username: sa
     password:
 
