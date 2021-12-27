@@ -6,6 +6,4 @@ external_id UUID NOT NULL,
 owner_name VARCHAR(255) NOT NULL,
 trading_name VARCHAR(255) NOT NULL,
 document VARCHAR(255) UNIQUE NOT NULL
---address geometry(Point, 4326) NOT NULL,
---coverage_area geometry(Multipolygon, 4326) NOT NULL
 );
