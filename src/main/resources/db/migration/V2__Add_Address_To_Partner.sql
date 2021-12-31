@@ -1,1 +1,0 @@
-ALTER TABLE partners ADD COLUMN address geometry;

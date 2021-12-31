@@ -3,7 +3,7 @@ package io.juliodias.ze.controller
 import io.juliodias.ze.exception.ErrorResponse
 import io.juliodias.ze.exception.PartnerErrorResponse
 import io.juliodias.ze.model.PartnerSkeleton
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.Resource
@@ -25,9 +25,9 @@ class PartnerControllerTest : AbstractControllerTest() {
         val response = doPostRequest(PARTNER_ENDPOINT, partnerRequest)
 
         val partnerSkeleton = objectMapper.readValue(response.contentAsString, PartnerSkeleton::class.java)
-        Assertions.assertThat(partnerSkeleton.ownerName).isEqualTo("Nelson Rodrigues")
-        Assertions.assertThat(partnerSkeleton.document).isEqualTo("36.096.143/0001-96")
-        Assertions.assertThat(partnerSkeleton.tradingName).isEqualTo("Adega da Cerveja - Pinheiros")
+        assertThat(partnerSkeleton.ownerName).isEqualTo("Nelson Rodrigues")
+        assertThat(partnerSkeleton.document).isEqualTo("36.096.143/0001-96")
+        assertThat(partnerSkeleton.tradingName).isEqualTo("Bar do Nelson")
     }
 
     @Test
@@ -42,8 +42,8 @@ class PartnerControllerTest : AbstractControllerTest() {
 
         val responseBody = response.contentAsString
         val partnerErrorResponse = objectMapper.readValue(responseBody, PartnerErrorResponse::class.java)
-        Assertions.assertThat(partnerErrorResponse.error).isEqualTo(ErrorResponse.PARTNER_ALREADY_EXISTS)
-        Assertions.assertThat(partnerErrorResponse.description).isEqualTo("This partner already registed")
+        assertThat(partnerErrorResponse.error).isEqualTo(ErrorResponse.PARTNER_ALREADY_EXISTS)
+        assertThat(partnerErrorResponse.description).isEqualTo("This partner already registed")
     }
 
     @Test
@@ -51,7 +51,7 @@ class PartnerControllerTest : AbstractControllerTest() {
         val url = "$PARTNER_ENDPOINT/76328bf9-47e3-454c-aa45-b93dc77004d0"
 
         val response = doGetRequest(url, HttpStatus.NO_CONTENT)
-        Assertions.assertThat(response.contentAsString).isBlank
+        assertThat(response.contentAsString).isBlank
     }
 
     @Test
@@ -60,9 +60,9 @@ class PartnerControllerTest : AbstractControllerTest() {
 
         val response = doGetRequest(url, HttpStatus.OK)
         val partnerSkeleton = objectMapper.readValue(response.contentAsString, PartnerSkeleton::class.java)
-        Assertions.assertThat(partnerSkeleton.ownerName).isEqualTo("Zezinho")
-        Assertions.assertThat(partnerSkeleton.document).isEqualTo("1432132123891/0001")
-        Assertions.assertThat(partnerSkeleton.tradingName).isEqualTo("Adeguinha do Zezinho")
+        assertThat(partnerSkeleton.ownerName).isEqualTo("Zezinho")
+        assertThat(partnerSkeleton.document).isEqualTo("1432132123891/0001")
+        assertThat(partnerSkeleton.tradingName).isEqualTo("Adeguinha do Zezinho")
     }
 
     companion object {

@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/beverages_partners;MODE=Postgre
+    url: jdbc:postgresql://localhost:5432/beverages_partners
     username: zezinho
     password: any-strong-secured-password
 

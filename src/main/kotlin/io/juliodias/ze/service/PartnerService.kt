@@ -29,6 +29,12 @@ class PartnerService(val partnerRepository: PartnerRepository) {
         return partner
     }
 
+    fun getNearestPartner(latitude: Double, longitude: Double): Partner? {
+        val partner = partnerRepository.findNearestPartner(latitude, longitude)
+        logger.info("Finding for nearest partner around this coordinates (latitude: $latitude, longitude: $longitude)")
+        return partner
+    }
+
     companion object {
         private val logger: Logger = LogManager.getLogger()
     }

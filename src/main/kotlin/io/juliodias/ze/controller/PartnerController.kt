@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 
@@ -28,6 +29,13 @@ class PartnerController(val partnerService: PartnerService) {
     @GetMapping("{externalId}")
     fun listPartner(@PathVariable externalId: String): ResponseEntity<PartnerSkeleton> {
         val partner = partnerService.getPartner(externalId)
+            ?: return ResponseEntity.noContent().build()
+        return ResponseEntity.ok(partner.toSkeleton())
+    }
+
+    @GetMapping
+    fun listNearestPartnerByCoordinates(@RequestParam lat: Double, @RequestParam long: Double): ResponseEntity<PartnerSkeleton> {
+        val partner = partnerService.getNearestPartner(lat, long)
             ?: return ResponseEntity.noContent().build()
         return ResponseEntity.ok(partner.toSkeleton())
     }

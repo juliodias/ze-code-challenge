@@ -1,7 +1,8 @@
 package io.juliodias.ze.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import java.nio.charset.Charset
+import java.nio.charset.Charset.forName
+import kotlin.text.Charsets.UTF_8
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -41,5 +42,5 @@ abstract class AbstractControllerTest {
         }.andReturn().response
     }
 
-    protected fun jsonFromResource(resource: Resource) = StreamUtils.copyToString(resource.inputStream, Charset.forName(Charsets.UTF_8.name()))
+    protected fun jsonFromResource(resource: Resource) = StreamUtils.copyToString(resource.inputStream, forName(UTF_8.name()))
 }
